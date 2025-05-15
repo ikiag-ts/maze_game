@@ -1,0 +1,80 @@
+public class RayCast {
+    int[][] maze = {
+        {1,1,1,1,1,1,1,1},
+        {1,0,0,0,0,0,0,1},
+        {1,0,0,0,0,0,0,1},
+        {1,0,0,1,1,0,0,1},
+        {1,0,0,1,1,0,0,1},
+        {1,0,0,0,0,0,0,1},
+        {1,0,0,0,0,0,0,1},
+        {1,1,1,1,1,1,1,1},
+    };
+    
+
+    private int[][] scaledMap;
+    private final int scaleFactor = 16;
+    private int playerX =2;
+    private int playerY= 3;
+
+    public RayCast(){
+        scaledMap = makeScaledMap();
+    }
+    public int[][] getScaledMap(){
+        return scaledMap;
+    }
+    public int[][] makeScaledMap(){
+        int[][] newScaledMap = new int[maze.length * scaleFactor][maze[0].length * scaleFactor];
+        for(int i = 0; i < maze.length;i++){
+            for(int j = 0; j < maze[0].length; j++){
+                for(int k = 0; k < scaleFactor; k++){
+                    for(int l = 0; l < scaleFactor; l++){
+                        newScaledMap[k + i * scaleFactor][l +j * scaleFactor] = maze[i][j];
+                    }
+                }
+            }
+        }
+        return newScaledMap;
+    }
+
+    public int getDistance(double angle){
+        int run = (int)(5 * Math.cos(angle));
+        int rise = (int)(5 * Math.sin(angle));
+ 
+        System.out.println(run  +" " + rise);
+        int startPosX = playerX * scaleFactor;
+        int startPosY = playerY * scaleFactor;
+        int rayX = startPosX;
+        int rayY = startPosY;
+        for(int i = 0 ;i <scaledMap.length;i++){
+            if(!isInBound(scaledMap, rayX,rayY)){
+                System.out.println("ERRRORRRR");
+                return -1;
+            }
+            if(scaledMap[rayX][rayY] == 1){
+                return (int)Math.sqrt(Math.pow(startPosX - rayX, 2.0) + Math.pow(startPosY - rayY, 2.0));
+            }
+            rayX+=run;
+            rayY+=rise;
+        }
+        return -1;
+        
+    }
+    
+
+
+    public boolean isInBound(int[][] arr, int x, int y)
+    {
+        return (x >= 0 && x < arr.length) &&  (y >=0 && y < arr[0].length);
+    }
+
+    private int[] appendArray(int[] arr1, int[] arr2){
+        int[] newArr = new int[arr1.length + arr2.length];
+        for(int i = 0; i < arr1.length; i++){
+            newArr[i] = arr1[i];
+        }
+        for(int i = 0; i < arr2.length; i++){
+            newArr[i+arr1.length] = arr2[i+arr1.length];
+        }
+        return newArr;
+    }
+}
