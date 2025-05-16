@@ -14,7 +14,7 @@ public class RayCast {
     private int[][] scaledMap;
     private final int scaleFactor = 16;
     private int playerX =2;
-    private int playerY= 3;
+    private int playerY= 2;
 
     public RayCast(){
         scaledMap = makeScaledMap();
@@ -40,7 +40,7 @@ public class RayCast {
         int run = (int)(5 * Math.cos(angle));
         int rise = (int)(5 * Math.sin(angle));
  
-        System.out.println(run  +" " + rise);
+        //System.out.println(run  +" " + rise);
         int startPosX = playerX * scaleFactor;
         int startPosY = playerY * scaleFactor;
         int rayX = startPosX;
@@ -59,9 +59,42 @@ public class RayCast {
         return -1;
         
     }
-    
+    public int[] getDistanceArray(int fov){
+        int[] distanceArray = new int[fov];
+        int index = 0;
+        for(int i = (180 - fov) / 2; i < fov + ((180 - fov) / 2); i++)
+        {
+            distanceArray[index] = getDistance(Math.toRadians(i));
+            System.out.println(getDistance(Math.toRadians(i)));
+            index++;
+        }
+        return distanceArray;
+    }
+    public void printTestFrame(int fov)
+    {
+        int[] distanceArray = getDistanceArray(fov);
+        distanceArray = swapArray(distanceArray);
+        printArray(distanceArray);
+        int[][] screen = new int[100][fov];
+        for(int x = 0; x < screen[0].length; x++){
+            //screen[0][x];
+            for(int i = 0; i < distanceArray[x]; i++){
+                screen[i][x + (100- distanceArray[x] / 2)] = 1;
+            }
+        }
+        print2dArray(screen);
 
+    }
 
+    public int[] swapArray(int[] arr)
+    {
+        int[] newArr = new int[arr.length];
+        for(int i = 0; i < arr.length; i++)
+        {
+            newArr[arr.length - i - 1] = arr[i];
+        }
+        return newArr;
+    }
     public boolean isInBound(int[][] arr, int x, int y)
     {
         return (x >= 0 && x < arr.length) &&  (y >=0 && y < arr[0].length);
@@ -76,5 +109,22 @@ public class RayCast {
             newArr[i+arr1.length] = arr2[i+arr1.length];
         }
         return newArr;
+    }
+    public static void print2dArray(int[][] a){
+        for(int i = 0; i < a.length; i++){
+            printArray(a[i]);
+            
+        }
+    }
+    public static void printArray(int[] a){
+        String b = "";
+        for(int i = 0; i < a.length; i++){
+            b += a[i];
+            if (i +1<a.length){
+                b+= "";
+            }
+        }
+        b +=" ";
+        System.out.println(b);
     }
 }
