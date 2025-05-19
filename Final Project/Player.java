@@ -8,17 +8,12 @@ public class Player extends JComponent{
     public int r = 10;
     double rotation;
 
-    public void paintComponent(Graphics g) {
+    protected void paintComponent(Graphics g) {
         super.paintComponent(g);
         g.drawOval(x, y, r, r);
         g.fillOval(x,y,r,r);
         g.setColor(Color.RED);
         
-    }
-
-    public void move(int[] arr){
-        x += arr[0];
-        y += arr[1];
     }
 
     public void moveRight() {
