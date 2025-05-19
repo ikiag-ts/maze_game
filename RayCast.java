@@ -14,7 +14,7 @@ public class RayCast {
     private int[][] scaledMap;
     private final int scaleFactor = 16;
     private int playerX =2;
-    private int playerY= 2;
+    private int playerY= 3;
 
     public RayCast(){
         scaledMap = makeScaledMap();
@@ -64,8 +64,9 @@ public class RayCast {
         int index = 0;
         for(int i = (180 - fov) / 2; i < fov + ((180 - fov) / 2); i++)
         {
-            distanceArray[index] = getDistance(Math.toRadians(i));
-            System.out.println(getDistance(Math.toRadians(i)));
+            //add + Math.toRadians(30) Meow
+            distanceArray[index] = (int)(getDistance(Math.toRadians(i) ) * (1.0/maze.length*scaleFactor));
+            //System.out.println(getDistance(Math.toRadians(i)));
             index++;
         }
         return distanceArray;
@@ -75,11 +76,12 @@ public class RayCast {
         int[] distanceArray = getDistanceArray(fov);
         distanceArray = swapArray(distanceArray);
         printArray(distanceArray);
-        int[][] screen = new int[100][fov];
+        int[][] screen = new int[maze.length*scaleFactor * 2][fov];
         for(int x = 0; x < screen[0].length; x++){
             //screen[0][x];
             for(int i = 0; i < distanceArray[x]; i++){
-                screen[i][x + (100- distanceArray[x] / 2)] = 1;
+                System.out.print(( screen.length - distanceArray[x]  ) / 2);
+                screen[i+ ((screen.length - distanceArray[x]  ) / 2)][x] = 1; // 
             }
         }
         print2dArray(screen);
@@ -106,7 +108,7 @@ public class RayCast {
             newArr[i] = arr1[i];
         }
         for(int i = 0; i < arr2.length; i++){
-            newArr[i+arr1.length] = arr2[i+arr1.length];
+            newArr[i+arr1.length] = arr2[i=+arr1.length];
         }
         return newArr;
     }
@@ -121,7 +123,7 @@ public class RayCast {
         for(int i = 0; i < a.length; i++){
             b += a[i];
             if (i +1<a.length){
-                b+= "";
+                b+= "  ";
             }
         }
         b +=" ";

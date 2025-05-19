@@ -13,7 +13,8 @@ public class RayCastTester {
         };
         Maze m = new Maze(maze);
         RayCast r = new RayCast();
-        System.out.println(r.getDistance(Math.toRadians(135)));
+        r.printTestFrame(90);
+        //System.out.println(r.getDistance(Math.toRadians(135)));
         //int[][] m = r.getScaledMap();
         //print2dArray(m);
     }
@@ -25,14 +26,14 @@ public class RayCastTester {
         }
     }
     public static void printArray(int[] a){
-        String b = "[";
+        String b = "";
         for(int i = 0; i < a.length; i++){
             b += a[i];
             if (i +1<a.length){
-                b+= ", ";
+                b+= "";
             }
         }
-        b +="]";
+        b +=" ";
         System.out.println(b);
     }
 }
