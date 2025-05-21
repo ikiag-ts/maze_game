@@ -11,9 +11,18 @@ public class RayCastTester {
             {1,0,0,0,0,0,0,1},
             {1,1,1,1,1,1,1,1},
         };
+        Player p = new Player(2,2,90);
         Maze m = new Maze(maze);
-        RayCast r = new RayCast();
-        r.printTestFrame(90);
+        RayCast r = new RayCast(p);
+        r.printTestFrame();
+        p.moveDown();
+        p.rotateRight();
+        r.printTestFrame();
+        p.moveDown();
+        p.rotateLeft();
+        p.rotateLeft();
+        p.rotateLeft();
+        r.printTestFrame();
         //System.out.println(r.getDistance(Math.toRadians(135)));
         //int[][] m = r.getScaledMap();
         //print2dArray(m);

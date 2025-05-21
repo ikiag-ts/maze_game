@@ -1,6 +1,6 @@
 public class RayCast {
     int[][] maze = {
-        {1,1,1,1,1,1,1,1},
+        {1,1,1,0,1,1,1,1},
         {1,0,0,0,0,0,0,1},
         {1,0,0,0,0,0,0,1},
         {1,0,0,1,1,0,0,1},
@@ -10,14 +10,14 @@ public class RayCast {
         {1,1,1,1,1,1,1,1},
     };
     
-
+    Player player;
     private int[][] scaledMap;
     private final int scaleFactor = 16;
-    private int playerX =2;
-    private int playerY= 3;
 
-    public RayCast(){
+
+    public RayCast(Player player){
         scaledMap = makeScaledMap();
+        this.player = player;
     }
     public int[][] getScaledMap(){
         return scaledMap;
@@ -36,22 +36,25 @@ public class RayCast {
         return newScaledMap;
     }
 
-    public int getDistance(double angle){
+    public double getDistance(double angle){
+        angle +=player.getRotation();
         int run = (int)(5 * Math.cos(angle));
         int rise = (int)(5 * Math.sin(angle));
  
-        //System.out.println(run  +" " + rise);
-        int startPosX = playerX * scaleFactor;
-        int startPosY = playerY * scaleFactor;
+        //System.out.println(nigglet);
+        int startPosX = (player.getX() * scaleFactor) - scaleFactor / 2;
+        int startPosY = (player.getY() * scaleFactor)- scaleFactor / 2;
         int rayX = startPosX;
         int rayY = startPosY;
-        for(int i = 0 ;i <scaledMap.length;i++){
-            if(!isInBound(scaledMap, rayX,rayY)){
-                System.out.println("ERRRORRRR");
+        for(int i = 0 ;i <scaledMap.length;i++)
+        {
+            if(!isInBound(scaledMap, rayX,rayY))
+            {
                 return -1;
             }
-            if(scaledMap[rayX][rayY] == 1){
-                return (int)Math.sqrt(Math.pow(startPosX - rayX, 2.0) + Math.pow(startPosY - rayY, 2.0));
+            if(scaledMap[rayX][rayY] == 1)
+            {
+                return Math.sqrt(Math.pow(startPosX - rayX, 2.0) + Math.pow(startPosY - rayY, 2.0));
             }
             rayX+=run;
             rayY+=rise;
@@ -59,24 +62,25 @@ public class RayCast {
         return -1;
         
     }
-    public int[] getDistanceArray(int fov){
+    public int[] getDistanceArray(int fov)
+    {
         int[] distanceArray = new int[fov];
         int index = 0;
         for(int i = (180 - fov) / 2; i < fov + ((180 - fov) / 2); i++)
         {
             //add + Math.toRadians(30) Meow
-            distanceArray[index] = (int)(getDistance(Math.toRadians(i) ) * (1.0/maze.length*scaleFactor));
+            distanceArray[index] = (int)(getDistance(Math.toRadians(i)) * (1.0/maze.length*scaleFactor));
             //System.out.println(getDistance(Math.toRadians(i)));
             index++;
         }
         return distanceArray;
     }
-    public void printTestFrame(int fov)
+    public void printTestFrame()
     {
-        int[] distanceArray = getDistanceArray(fov);
+        int[] distanceArray = getDistanceArray(player.getFov());
         distanceArray = swapArray(distanceArray);
         printArray(distanceArray);
-        int[][] screen = new int[maze.length*scaleFactor * 2][fov];
+        int[][] screen = new int[maze.length*scaleFactor * 2][player.getFov()];
         for(int x = 0; x < screen[0].length; x++){
             //screen[0][x];
             for(int i = 0; i < distanceArray[x]; i++){
