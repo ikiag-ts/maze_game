@@ -1,12 +1,32 @@
 public class Maze {
-    private int[][] maze;
-    private int size = 0;
-    public Maze(int size){
-        this.size = size;
-        maze = new int[size][size];
+    private static int[][] maze = {
+            { 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1 },
+            { 1, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1 },
+            { 1, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1 },
+            { 1, 0, 1, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1 },
+            { 1, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 1, 1, 0, 1 },
+            { 1, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1 },
+            { 1, 0, 0, 1, 1, 1, 1, 0, 0, 1, 0, 0, 0, 0, 1 },
+            { 1, 0, 0, 1, 1, 1, 1, 0, 0, 1, 0, 0, 0, 0, 1 },
+            { 1, 0, 0, 1, 1, 1, 1, 0, 0, 1, 0, 0, 0, 0, 1 },
+            { 1, 0, 0, 1, 1, 1, 1, 0, 0, 1, 0, 0, 0, 0, 1 },
+            { 1, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1 },
+            { 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1 },
+        };
+
+    public Maze(){
+        
     }
-    public Maze(int[][] maze){
-        this.maze = maze;
-        size = maze.length;
+
+    public static int[][] getMaze(){
+        return maze;
+    }
+
+    public static int getX(){
+        return maze[0].length * 32;
+    }
+
+    public static int getY(){
+        return maze.length * 32;
     }
 }

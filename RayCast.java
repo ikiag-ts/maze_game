@@ -10,12 +10,12 @@ public class RayCast {
         {1,1,1,1,1,1,1,1},
     };
     
-    Player player;
+    RayCastPlayer player;
     private int[][] scaledMap;
     private final int scaleFactor = 256;
 
 
-    public RayCast(Player player){
+    public RayCast(RayCastPlayer player){
         scaledMap = makeScaledMap();
         this.player = player;
     }
@@ -68,13 +68,13 @@ public class RayCast {
         int index = 0;
         for(int i = (180 - fov) / 2; i < fov + ((180 - fov) / 2); i++)
         {
-            //add + Math.toRadians(30) 
             distanceArray[index] = (int)(getDistance(Math.toRadians(i)) * (1.0/maze.length*scaleFactor)*(720.0/51167)) ;
-            //System.out.println(getDistance(Math.toRadians(i)));
             index++;
         }
+        swapArray(distanceArray);
         return distanceArray;
     }
+
     public void printTestFrame()
     {
         int[] distanceArray = getDistanceArray();

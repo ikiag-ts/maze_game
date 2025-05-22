@@ -1,60 +1,37 @@
-public class Player {
-    private int x;
-    private int y;
-    private int fov;
+import java.awt.Graphics;
+import java.awt.Color;
+import javax.swing.JComponent;
 
-    private int rotation;
+public class Player extends JComponent{
+    public int x = Maze.getX()/2;
+    public int y = Maze.getY()/2;
+    public int r = 10;
+    double rotation = 0;
 
-    public Player(int initX, int initY, int fov)
-    {
-        this.x = initX;
-        this.y = initY;
-        this.fov = fov;
-        rotation = 0;
-    }
-
-    public int getFov()
-    {
-        return fov;
+    protected void paintComponent(Graphics g) {
+        super.paintComponent(g);
+        g.setColor(Color.RED);
+        g.fillOval(x, y, r, r);
+        
     }
 
-    public int getRotation()
-    {
-        return rotation;
+    public void moveRight() {
+        x = x + 5;
+        repaint();
     }
 
-    public int getX()
-    {
-        return x;
+    public void moveLeft() {
+        x = x - 5;
+        repaint();
     }
 
-    public int getY(){
-        return y;
+    public void moveDown() {
+        y = y + 5;
+        repaint();
     }
 
-    public void rotateLeft()
-    {
-        rotation+=15;
-    }
-
-    public void rotateRight()
-    {
-        rotation -=15;
-    }
-    public void moveUp()
-    {
-        y-=1;
-    }
-    public void moveDown()
-    {
-        y+=1;
-    }
-    public void moveLeft()
-    {
-        x+=1;
-    }
-    public void moveRight()
-    {
-        x-=1;
+    public void moveUp() {
+        y = y - 5;
+        repaint();
     }
 }
