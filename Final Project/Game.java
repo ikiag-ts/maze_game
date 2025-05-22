@@ -3,89 +3,76 @@ import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
+import javax.swing.JComponent;
 import javax.swing.BorderFactory;
 
 
 public class Game extends JFrame implements KeyListener{
-    private Player player;
+    private static RayCastPlayer player;
 
     public void keyPressed(KeyEvent e) {
-        System.out.println("keyPressed");
+        if(e.getKeyCode()== KeyEvent.VK_D)
+            player.rotateRight();
+        else if(e.getKeyCode()== KeyEvent.VK_A)
+            player.rotateLeft();
+        else if(e.getKeyCode()== KeyEvent.VK_S)
+            player.moveDown();
+        else if(e.getKeyCode()== KeyEvent.VK_W)
+            player.moveUp();
+        System.out.println(player.getX() + " " + player.getY() + " " + player.getRotation());
     }
 
     public void keyReleased(KeyEvent e) {
-        if(e.getKeyCode()== KeyEvent.VK_RIGHT)
-            player.moveRight();
-        else if(e.getKeyCode()== KeyEvent.VK_LEFT)
-            player.moveLeft();
-        else if(e.getKeyCode()== KeyEvent.VK_DOWN)
-            player.moveDown();
-        else if(e.getKeyCode()== KeyEvent.VK_UP)
-            player.moveUp();
-
     }
+
     public void keyTyped(KeyEvent e) {
-        System.out.println("keyTyped");
-    }
-
-    public Graphics getGraphics(){
-        return super.getGraphics();
+        System.out.println("KeyTyped");
     }
 
     public Game(){
-        this.player = new Player();
+        this.player = new RayCastPlayer(2,2,90);
         addKeyListener(this);
         setFocusable(true);
         setFocusTraversalKeysEnabled(false);
     }
 
     public static void main(String[] args) {
-        javax.swing.SwingUtilities.invokeLater(new Runnable() {
-            public void run() {
-                Game frame = new Game();
-                initializeWindow(frame);
-            }
-        });
+        Game frame = new Game();
+        initializeWindow(frame);
+        Graphics g = frame.getGraphics();
+        RayCast r = new RayCast(player);
+        // r.printTestFrame();
+        // javax.swing.SwingUtilities.invokeLater(new Runnable() {
+        //     public void run() {
+            drawCasting(r.getDistanceArray(), g);
+            
+            // }
+        // });
     }
 
     public static void initializeWindow(Game frame) {
         int[][] maze = Maze.getMaze();
-        Graphics g = frame.getGraphics();
         frame.setTitle("Square Move Practice");
         frame.setResizable(false);
-        frame.setLayout(new GridLayout(maze.length, maze[0].length));
-        frame.setSize(Maze.getX(), Maze.getY());
-        frame.setMinimumSize(new Dimension(Maze.getX(), Maze.getY()));
+        frame.setSize(1080,720);
+        frame.setMinimumSize(new Dimension(1080,720));
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-
-         for (int row = 0; row < maze.length; row++) {
-            for (int col = 0; col < maze[0].length; col++) {
-                JLabel label = makeLabel(maze[row][col]);
-                frame.add(label);
-            }
-        }
-
-        frame.pack();
+        frame.pack(); 
         frame.setVisible(true);
-        
     }
-
-    private static JLabel makeLabel(int i) {
-
-        JLabel label= new JLabel();
-        label.setHorizontalAlignment(JLabel.CENTER);
-        label.setPreferredSize(new Dimension(40, 40));
-        switch(i) {
-            case 1:
-                label.setBackground(Color.GRAY);
-                break;
-            default:
-                label.setBackground(Color.WHITE);
-                break;
-
+    
+    public static void drawCasting(int[] distances, Graphics g){
+        //720 x 1080
+        for(int i = 0; i < distances.length; i++)
+        {
+            int offset = (720 - distances[i]) / 2;
+            g.setColor(returnColor(distances[i]));
+            g.fillRect(i * 12, offset , 1080/distances.length,(distances[i]) );
         }
-        label.setOpaque(true);
-        return label;
     }
 
+    public static Color returnColor(int distance){
+        Color c = new Color(0,0,(int)(distance * (255.0 / 720)));
+        return c;
+    }
 }

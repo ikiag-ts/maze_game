@@ -6,13 +6,12 @@ public class Player extends JComponent{
     public int x = Maze.getX()/2;
     public int y = Maze.getY()/2;
     public int r = 10;
-    double rotation;
+    double rotation = 0;
 
     protected void paintComponent(Graphics g) {
         super.paintComponent(g);
-        g.drawOval(x, y, r, r);
-        g.fillOval(x,y,r,r);
         g.setColor(Color.RED);
+        g.fillOval(x, y, r, r);
         
     }
 
