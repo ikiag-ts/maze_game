@@ -11,18 +11,10 @@ public class RayCastTester {
             {1,0,0,0,0,0,0,1},
             {1,1,1,1,1,1,1,1},
         };
-        Player p = new Player(2,2,90);
+        Player p = new Player(1,1,90);
         Maze m = new Maze(maze);
         RayCast r = new RayCast(p);
-        r.printTestFrame();
-        p.moveDown();
-        p.rotateRight();
-        r.printTestFrame();
-        p.moveDown();
-        p.rotateLeft();
-        p.rotateLeft();
-        p.rotateLeft();
-        r.printTestFrame();
+        printArray(r.getDistanceArray());
         //System.out.println(r.getDistance(Math.toRadians(135)));
         //int[][] m = r.getScaledMap();
         //print2dArray(m);
@@ -35,14 +27,14 @@ public class RayCastTester {
         }
     }
     public static void printArray(int[] a){
-        String b = "";
+        String b = "[";
         for(int i = 0; i < a.length; i++){
             b += a[i];
             if (i +1<a.length){
-                b+= "";
+                b+= ", ";
             }
         }
-        b +=" ";
+        b +="]";
         System.out.println(b);
     }
 }

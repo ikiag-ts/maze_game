@@ -12,7 +12,7 @@ public class RayCast {
     
     Player player;
     private int[][] scaledMap;
-    private final int scaleFactor = 16;
+    private final int scaleFactor = 256;
 
 
     public RayCast(Player player){
@@ -38,12 +38,11 @@ public class RayCast {
 
     public double getDistance(double angle){
         angle +=player.getRotation();
-        int run = (int)(5 * Math.cos(angle));
-        int rise = (int)(5 * Math.sin(angle));
+        int run = (int)(16 * Math.cos(angle));
+        int rise = (int)(16 * Math.sin(angle));
  
-        //System.out.println(nigglet);
-        int startPosX = (player.getX() * scaleFactor) - scaleFactor / 2;
-        int startPosY = (player.getY() * scaleFactor)- scaleFactor / 2;
+        int startPosX = (player.getX() * scaleFactor);// - scaleFactor / 2;
+        int startPosY = (player.getY() * scaleFactor);//- scaleFactor / 2;
         int rayX = startPosX;
         int rayY = startPosY;
         for(int i = 0 ;i <scaledMap.length;i++)
@@ -62,14 +61,15 @@ public class RayCast {
         return -1;
         
     }
-    public int[] getDistanceArray(int fov)
+    public int[] getDistanceArray()
     {
+        int fov = player.getFov();
         int[] distanceArray = new int[fov];
         int index = 0;
         for(int i = (180 - fov) / 2; i < fov + ((180 - fov) / 2); i++)
         {
-            //add + Math.toRadians(30) Meow
-            distanceArray[index] = (int)(getDistance(Math.toRadians(i)) * (1.0/maze.length*scaleFactor));
+            //add + Math.toRadians(30) 
+            distanceArray[index] = (int)(getDistance(Math.toRadians(i)) * (1.0/maze.length*scaleFactor)*(720.0/51167)) ;
             //System.out.println(getDistance(Math.toRadians(i)));
             index++;
         }
@@ -77,7 +77,7 @@ public class RayCast {
     }
     public void printTestFrame()
     {
-        int[] distanceArray = getDistanceArray(player.getFov());
+        int[] distanceArray = getDistanceArray();
         distanceArray = swapArray(distanceArray);
         printArray(distanceArray);
         int[][] screen = new int[maze.length*scaleFactor * 2][player.getFov()];
