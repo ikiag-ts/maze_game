@@ -1,73 +1,72 @@
 import java.awt.*;
-import java.awt.event.KeyEvent;
-import java.awt.event.KeyListener;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JComponent;
 import javax.swing.BorderFactory;
+import java.util.concurrent.TimeUnit;
 
-
-public class Game extends JFrame implements KeyListener{
-    private Player player;
-
-    public void keyPressed(KeyEvent e) {
-        if(e.getKeyCode()== KeyEvent.VK_D)
-            player.moveRight();
-        else if(e.getKeyCode()== KeyEvent.VK_A)
-            player.moveLeft();
-        else if(e.getKeyCode()== KeyEvent.VK_S)
-            player.moveDown();
-        else if(e.getKeyCode()== KeyEvent.VK_W)
-            player.moveUp();
-    }
-
-    public void keyReleased(KeyEvent e) {
-    }
-
-    public void keyTyped(KeyEvent e) {
-        System.out.println("KeyTyped");
-    }
+public class Game extends JFrame{
+    private static RayCastPlayer player;
+    private static Input input;
 
     public Game(){
-        this.player = new Player();
-        addKeyListener(this);
+        this.input = new Input();
+        this.player = new RayCastPlayer(4,4,90);
+        addKeyListener(input);
         setFocusable(true);
         setFocusTraversalKeysEnabled(false);
     }
 
     public static void main(String[] args) {
-        javax.swing.SwingUtilities.invokeLater(new Runnable() {
-            public void run() {
-                Game frame = new Game();
-                initializeWindow(frame);
-                Graphics g = frame.getGraphics();
-                RayCastPlayer p = new RayCastPlayer(2,3,90);
-                RayCast r = new RayCast(p);
-                while(true)
-                {drawCasting(r.getDistanceArray(), g);}
+        Game frame = new Game();
+        initializeWindow(frame);
+        Graphics g = frame.getGraphics();
+        RayCast r = new RayCast(player);
+        input.run(player);
+        while(true){
+
+            resetBackground(g);
+            drawCasting(r.getDistanceArray(), g);
+            try {
+                Thread.sleep(500);
+            } 
+            catch (InterruptedException e) {
+            Thread.currentThread().interrupt();
+
+                return;
             }
-        });
+        }
     }
 
     public static void initializeWindow(Game frame) {
         int[][] maze = Maze.getMaze();
-        frame.setTitle("Square Move Practice");
+        frame.setTitle("Maze Game!!!!");
         frame.setResizable(false);
-        frame.setSize(720,1080);
-        frame.setMinimumSize(new Dimension(720,1080));
+        frame.setSize(1080,720);
+        frame.setMinimumSize(new Dimension(1080,720));
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        frame.getContentPane().add(frame.player);
         frame.pack(); 
         frame.setVisible(true);
     }
     
     public static void drawCasting(int[] distances, Graphics g){
-        //720 x 1080
+        
         for(int i = 0; i < distances.length; i++)
         {
             int offset = (720 - distances[i]) / 2;
-            g.setColor(Color.BLUE);
-            g.fillRect(i * 12, offset /2, 1080/distances.length,(distances[i]) / 2);
+            g.setColor(returnColor(distances[i]));
+            g.fillRect(i * 12, offset , 1080/distances.length,(distances[i]) );
         }
+    }
+
+    public static void resetBackground(Graphics g){
+        g.setColor(Color.GREEN);
+        g.fillRect(0,0,1080,360);
+        g.setColor(Color.RED);
+        g.fillRect(0,360,1080,360);
+    }
+    public static Color returnColor(int distance){
+        Color c = new Color(0,0,(int)(distance * (255.0 / 720)));
+        return c;
     }
 }

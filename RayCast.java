@@ -1,18 +1,22 @@
 public class RayCast {
     int[][] maze = {
-        {1,1,1,0,1,1,1,1},
-        {1,0,0,0,0,0,0,1},
-        {1,0,0,0,0,0,0,1},
-        {1,0,0,1,1,0,0,1},
-        {1,0,0,1,1,0,0,1},
-        {1,0,0,0,0,0,0,1},
-        {1,0,0,0,0,0,0,1},
-        {1,1,1,1,1,1,1,1},
+        { 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1},
+        { 1, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 1},
+        { 1, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 1},
+        { 1, 0, 1, 0, 0, 0, 0, 0, 0, 1, 0, 1},
+        { 1, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 1},
+        { 1, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 1},
+        { 1, 0, 0, 1, 1, 1, 1, 0, 0, 1, 0, 1},
+        { 1, 0, 0, 1, 1, 1, 1, 0, 0, 1, 0, 1},
+        { 1, 0, 0, 1, 1, 1, 1, 0, 0, 1, 0, 1},
+        { 1, 0, 0, 1, 1, 1, 1, 0, 0, 1, 0, 1},
+        { 1, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 1},
+        { 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1}, 
     };
     
     RayCastPlayer player;
     private int[][] scaledMap;
-    private final int scaleFactor = 256;
+    private final int scaleFactor = 512;
 
 
     public RayCast(RayCastPlayer player){
@@ -38,11 +42,11 @@ public class RayCast {
 
     public double getDistance(double angle){
         angle +=player.getRotation();
-        int run = (int)(16 * Math.cos(angle));
-        int rise = (int)(16 * Math.sin(angle));
+        int run = (int)(10 * Math.cos(angle));
+        int rise = (int)(10 * Math.sin(angle));
  
-        int startPosX = (player.getX() * scaleFactor);// - scaleFactor / 2;
-        int startPosY = (player.getY() * scaleFactor);//- scaleFactor / 2;
+        int startPosX = (player.getX() * scaleFactor) - scaleFactor /(2 * maze.length);
+        int startPosY = (player.getY() * scaleFactor)- scaleFactor / (2 * maze.length);
         int rayX = startPosX;
         int rayY = startPosY;
         for(int i = 0 ;i <scaledMap.length;i++)
@@ -68,7 +72,7 @@ public class RayCast {
         int index = 0;
         for(int i = (180 - fov) / 2; i < fov + ((180 - fov) / 2); i++)
         {
-            distanceArray[index] = (int)(getDistance(Math.toRadians(i)) * (1.0/maze.length*scaleFactor)*(720.0/51167)) ;
+            distanceArray[index] = (int)(getDistance(Math.toRadians(i)) * (1.0/maze.length*scaleFactor)*(720.0/(209314))) ;
             index++;
         }
         swapArray(distanceArray);
@@ -123,14 +127,14 @@ public class RayCast {
         }
     }
     public static void printArray(int[] a){
-        String b = "";
+        String b = "[]";
         for(int i = 0; i < a.length; i++){
             b += a[i];
             if (i +1<a.length){
-                b+= "  ";
+                b+= ", ";
             }
         }
-        b +=" ";
+        b +="]";
         System.out.println(b);
     }
 }
