@@ -35,27 +35,51 @@ public class RayCastPlayer extends JComponent {
 
     public void rotateLeft()
     {
-        rotation+=15;
+        rotation = (rotation - 90) % 360;
     }
 
     public void rotateRight()
     {
-        rotation -=15;
+        rotation = (rotation + 90) % 360;
     }
-    public void moveUp()
+
+    public void moveForward()
     {
-        y-=1;
+        int posRot = (rotation + 360) % 360;
+        if(posRot == 0){
+            y -= 1;
+        }
+
+        if(posRot == 90){
+            x += 1;
+        }
+
+        if(posRot == 180){
+            y += 1;
+        }
+
+        if(posRot == 270){
+            x -= 1;
+        }
     }
-    public void moveDown()
+
+    public void moveBackward()
     {
-        y+=1;
-    }
-    public void moveLeft()
-    {
-        x+=1;
-    }
-    public void moveRight()
-    {
-        x-=1;
+        int posRot = (rotation + 360) % 360;
+        if(posRot == 0){
+            y += 1;
+        }
+
+        if(posRot == 90){
+            x -= 1;
+        }
+
+        if(posRot == 180){
+            y -= 1;
+        }
+
+        if(posRot == 270){
+            x += 1;
+        }
     }
 }
