@@ -1,12 +1,48 @@
 public class RayCast {
+    //public int[][] maze = {
+    //    { 1, 1, 1, 1, 1},
+    //    { 1, 0, 0, 0, 1},
+    //    { 1, 0, 0, 0, 1},
+    //    { 1, 0, 0, 0, 1},
+    //    { 1, 1, 1, 1, 1},
+    //};
+    //public int[][] maze = {
+    //{1, 1, 1, 1, 1, 1, 1, 1, 1, 1},    
+    //{1, 0, 0, 0, 0, 0, 0, 0, 0, 1},    
+    //{1, 0, 0, 0, 0, 0, 0, 0, 0, 1},    
+    //{1, 0, 0, 0, 0, 0, 0, 0, 0, 1},    
+    //{1, 1, 1, 1, 1, 1, 0, 0, 0, 1},
+    //{1, 0, 0, 0, 0, 1, 0, 0, 0, 1},
+    //{1, 1, 1, 1, 1, 1, 0, 0, 0, 1},
+    //{1, 0, 0, 0, 0, 0, 0, 0, 0, 1},
+    //{1, 0, 0, 0, 0, 0, 0, 0, 0, 1},
+    //{1, 0, 0, 0, 0, 0, 0, 0, 0, 1},
+    //{1, 1, 1, 1, 1, 1, 1, 1, 1, 1},    
+    //};
     public int[][] maze = {
-        { 1, 1, 1, 1, 1},
-        { 1, 0, 0, 0, 1},
-        { 1, 0, 0, 0, 1},
-        { 1, 0, 0, 0, 1},
-        { 1, 1, 1, 1, 1},
+        {1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1},
+        {1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 1},
+        {1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 1},
+        {1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 1},
+        {1, 1, 1, 1, 1, 1, 1, 0, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0, 1},
+        {1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0, 1},
+        {1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0, 1},
+        {1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0, 1},
+        {1, 1, 1, 1, 0, 0, 0, 1, 1, 1, 1, 1, 0, 0, 0, 1, 0, 0, 0, 1},
+        {1, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1},
+        {1, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1},
+        {1, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1},
+        {1, 1, 1, 1, 0, 0, 0, 1, 0, 0, 0, 1, 1, 1, 1, 1, 1, 1, 1, 1},
+        {1, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1},
+        {1, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1},
+        {1, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1},
+        {1, 1, 1, 1, 0, 0, 0, 1, 0, 0, 0, 1, 1, 1, 1, 1, 0, 0, 0, 1},
+        {1, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 1},
+        {1, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 1},
+        {1, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 1},
+        {1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1},
     };
-    
+
     RayCastPlayer player;
     private int[][] scaledMap;
     private final int scaleFactor = 256;
@@ -44,27 +80,27 @@ public double getDistance(double angle) {
 
     double stepSize = 0.5;
 
-    double stepX = Math.cos(angle) * stepSize;
-    double stepY = Math.sin(angle) * stepSize;
+    double run = Math.cos(angle) * stepSize;
+    double rise = Math.sin(angle) * stepSize;
 
-        while (true) {
-            rayX += stepX;
-            rayY += stepY;
+    while (true) {
+        rayX += run;
+        rayY += rise;
 
-            int mazeX = (int)(rayX / scaleFactor);
-            int mazeY = (int)(rayY / scaleFactor);
+        int mazeX = (int)(rayX / scaleFactor);
+        int mazeY = (int)(rayY / scaleFactor);
 
-            if (!isInBound(maze, mazeY, mazeX)) {
-                return Integer.MAX_VALUE; 
-            }
+        if (!isInBound(maze, mazeY, mazeX)) {
+            return 0; 
+        }
 
-            if (maze[mazeY][mazeX] == 1) {
-                double dx = rayX - startPosX;
-                double dy = rayY - startPosY;
-                return Math.sqrt(dx * dx + dy * dy);
-            }
+        if (maze[mazeY][mazeX] == 1) {
+            double dx = rayX - startPosX;
+            double dy = rayY - startPosY;
+            return Math.sqrt(dx * dx + dy * dy);
         }
     }
+}
     
     public int[] getDistanceArray()
     {
@@ -73,7 +109,7 @@ public double getDistance(double angle) {
         int index = 0;
         for(int i = (180 - fov) / 2; i < fov + ((180 - fov) / 2); i++)
         {
-            distanceArray[index] = (int)(getDistance(Math.toRadians(i)) * (1.0/maze.length*scaleFactor)*(720.0/(66666))) ;
+            distanceArray[index] = (int)(getDistance(Math.toRadians(i)) * (1.0/maze.length*scaleFactor)*(720.0/(scaleFactor*scaleFactor) )) ;
 
             //distanceArray[index] = (int)((1.0 / getDistance(Math.toRadians(i))) * 10000000 * (720.0/666666.0)) ;
             index++;

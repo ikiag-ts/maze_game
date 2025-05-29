@@ -1,9 +1,5 @@
 import java.awt.*;
 import javax.swing.JFrame;
-import javax.swing.JLabel;
-import javax.swing.JComponent;
-import javax.swing.BorderFactory;
-import java.util.concurrent.TimeUnit;
 
 public class Game extends JFrame{
     public static RayCastPlayer player;
@@ -21,13 +17,14 @@ public class Game extends JFrame{
         Game frame = new Game();
         initializeWindow(frame);
         Graphics g = frame.getGraphics();
-        Visualize2D vis = new Visualize2D();
         RayCast r = new RayCast(player);
+        Visualize2D vis = new Visualize2D();
+        vis.run(frame,player);
         
         input.run(player);
-        vis.run(frame);
         
         while(true){
+        
 
             resetBackground(g);
             drawCasting(r.getDistanceArray(), g);
@@ -57,16 +54,17 @@ public class Game extends JFrame{
         
         for(int i = 0; i < distances.length; i++)
         {
-            int offset = (720 - distances[i]) / 2;
+            int rHeight = (720 - distances[i]) / 2;
+            int offset = (720 - rHeight) / 2;
             g.setColor(returnColor(distances[i]));
-            g.fillRect(i * 12, offset , 1080/distances.length,(distances[i]) );
+            g.fillRect(i * 12, offset , 1080/distances.length, rHeight );
         }
     }
 
     public static void resetBackground(Graphics g){
-        g.setColor(Color.GREEN);
+        g.setColor(Color.LIGHT_GRAY);
         g.fillRect(0,0,1080,360);
-        g.setColor(Color.RED);
+        g.setColor(Color.DARK_GRAY);
         g.fillRect(0,360,1080,360);
     }
     public static Color returnColor(int distance){
