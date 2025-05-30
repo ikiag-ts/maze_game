@@ -7,7 +7,7 @@ public class Game extends JFrame{
 
     public Game(){
         this.input = new Input();
-        this.player = new RayCastPlayer(2,1,90);
+        this.player = new RayCastPlayer(2,2,90);
         addKeyListener(input);
         setFocusable(true);
         setFocusTraversalKeysEnabled(false);
@@ -52,8 +52,8 @@ public class Game extends JFrame{
         
         for(int i = 0; i < distances.length; i++)
         {
-            int rHeight = (720 - distances[i]);
-            int offset = (720 - rHeight) / 2;
+            int rHeight = (720-distances[i]);
+            int offset = (distances[i]) / 2;
             g.setColor(returnColor(distances[i]));
             g.fillRect(i * 12, offset , 1080/distances.length, rHeight );
         }

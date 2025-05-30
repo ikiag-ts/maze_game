@@ -53,7 +53,7 @@ public class RayCast {
     }
 
     public double getDistance(double angle) {
-        angle += Math.toRadians(player.getRotation()) - Math.PI / 2; 
+        angle += Math.toRadians(player.getRotation())+Math.PI; 
         
         double startPosX = player.getX();
         double startPosY = player.getY();
@@ -66,12 +66,12 @@ public class RayCast {
         double dx = Math.cos(angle) * stepSize;
         double dy = Math.sin(angle) * stepSize;
 
-        while (maze[(int)Math.floor(rayX)][(int)Math.floor(rayY)] == 0) {
+        while (maze[(int)(rayY)][(int)(rayX)] == 0) {
             rayX += dx;
             rayY += dy;
 
-            int mazeX = (int)Math.floor(rayX);
-            int mazeY = (int)Math.floor(rayY);
+            int mazeX = (int)(rayX);
+            int mazeY = (int)(rayY);
 
             if (!isInBound(maze, mazeY, mazeX)) {
                 return 0; 

@@ -43,24 +43,24 @@ public class RayCastPlayer {
     
     public void moveForward() { 
 
-        double newX = x + Math.cos(rotation * Math.PI / 180) * 0.5;    
-        double newY = y + Math.sin(rotation * Math.PI / 180) * 0.5;
+        double newX = x + Math.cos(rotation * Math.PI / 180 - Math.PI/2) * 0.5;    
+        double newY = y + Math.sin(rotation * Math.PI / 180 - Math.PI/2) * 0.5;
     
-        // if (canMoveTo(newX, newY)) {    
+        if (canMoveTo(newX, newY)) {    
             x = newX;   
             y = newY;  
-        // } 
+        } 
     }
     
     public void moveBackward() {       
 
-        double newY = y + Math.sin(rotation * Math.PI / 180);
-        double newX = x + Math.cos(rotation * Math.PI / 180);    
+        double newY = y + Math.sin(rotation * Math.PI / 180 + Math.PI/2);
+        double newX = x + Math.cos(rotation * Math.PI / 180 + Math.PI/2);    
     
-        // if (canMoveTo(newX, newY)) {    
+        if (canMoveTo(newX, newY)) {    
             x = newX;   
             y = newY;  
-        // } 
+        } 
     }
     
     private boolean canMoveTo(double newX, double newY) { 
