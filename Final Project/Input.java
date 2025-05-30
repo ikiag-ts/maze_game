@@ -22,7 +22,7 @@ public class Input extends Thread implements KeyListener
             player.moveBackward();
         else if(e.getKeyCode()== KeyEvent.VK_W)
             player.moveForward();
-        System.out.println(player.getX() + " " + player.getY() + " " + player.getRotation());
+        System.out.println((int)(player.getX()) + " " + (int)(player.getY()) + " " + player.getRotation());
     }
 
     public void keyReleased(KeyEvent e) {

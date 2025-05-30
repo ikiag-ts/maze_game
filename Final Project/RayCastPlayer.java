@@ -1,85 +1,76 @@
-import javax.swing.JComponent;
-public class RayCastPlayer extends JComponent {
-    private int x;
-    private int y;
+public class RayCastPlayer {
+    private double x;
+    private double y;
     private int fov;
-
     private int rotation;
+    private int[][] maze; 
 
-    public RayCastPlayer(int initX, int initY, int fov)
-    {
+    public RayCastPlayer(double initX, double initY, int fov) {
         this.x = initX;
         this.y = initY;
         this.fov = fov;
-        rotation = 0;
+        this.rotation = 0;
+    }
+    
+    public void setMaze(int[][] maze) {
+        this.maze = maze;
     }
 
-    public int getFov()
-    {
-        return fov;
+    
+    public int getFov() {   
+        return fov;    
     }
-
-    public int getRotation()
-    {
-        return rotation;
+    
+    public int getRotation() { 
+        return rotation;  
     }
-
-    public int getX()
-    {
+    
+    public double getX() { 
         return x;
     }
-
-    public int getY(){
-        return y;
+    
+    public double getY() { 
+        return y;    
     }
-
-    public void rotateLeft()
-    {
-        rotation = (rotation - 90) % 360;
+    
+    public void rotateLeft() {  
+        rotation -=15;   
     }
-
-    public void rotateRight()
-    {
-        rotation = (rotation + 90) % 360;
+    
+    public void rotateRight() { 
+        rotation +=15;    
     }
+    
+    public void moveForward() { 
 
-    public void moveForward()
-    {
-        int posRot = (rotation + 360) % 360;
-        if(posRot == 0){
-            y -= 1;
-        }
-
-        if(posRot == 90){
-            x += 1;
-        }
-
-        if(posRot == 180){
-            y += 1;
-        }
-
-        if(posRot == 270){
-            x -= 1;
-        }
+        double newX = x + Math.cos(rotation * Math.PI / 180) * 0.5;    
+        double newY = y + Math.sin(rotation * Math.PI / 180) * 0.5;
+    
+        // if (canMoveTo(newX, newY)) {    
+            x = newX;   
+            y = newY;  
+        // } 
     }
+    
+    public void moveBackward() {       
 
-    public void moveBackward()
-    {
-        int posRot = (rotation + 360) % 360;
-        if(posRot == 0){
-            y += 1;
-        }
+        double newY = y + Math.sin(rotation * Math.PI / 180);
+        double newX = x + Math.cos(rotation * Math.PI / 180);    
+    
+        // if (canMoveTo(newX, newY)) {    
+            x = newX;   
+            y = newY;  
+        // } 
+    }
+    
+    private boolean canMoveTo(double newX, double newY) { 
 
-        if(posRot == 90){
-            x -= 1;
+        if (maze == null) return true;
+        if (newY < 0 || newY >= maze.length || newX < 0 || newX >= maze[0].length) {    
+            return false;   
         }
+    
 
-        if(posRot == 180){
-            y -= 1;
-        }
-
-        if(posRot == 270){
-            x += 1;
-        }
+        return maze[(int)newY][(int)newX] == 0;   
     }
 }

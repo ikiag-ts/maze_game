@@ -1,11 +1,11 @@
 public class RayCast {
-    //public int[][] maze = {
+    // public int[][] maze = {
     //    { 1, 1, 1, 1, 1},
     //    { 1, 0, 0, 0, 1},
     //    { 1, 0, 0, 0, 1},
     //    { 1, 0, 0, 0, 1},
     //    { 1, 1, 1, 1, 1},
-    //};
+    // };
     //public int[][] maze = {
     //{1, 1, 1, 1, 1, 1, 1, 1, 1, 1},    
     //{1, 0, 0, 0, 0, 0, 0, 0, 0, 1},    
@@ -44,63 +44,45 @@ public class RayCast {
     };
 
     RayCastPlayer player;
-    private int[][] scaledMap;
-    private final int scaleFactor = 256;
 
 
     public RayCast(RayCastPlayer player){
-        scaledMap = makeScaledMap();
+
         this.player = player;
+        player.setMaze(this.maze);
     }
-    public int[][] getScaledMap(){
-        return scaledMap;
-    }
-    public int[][] makeScaledMap(){
-        int[][] newScaledMap = new int[maze.length * scaleFactor][maze[0].length * scaleFactor];
-        for(int i = 0; i < maze.length;i++){
-            for(int j = 0; j < maze[0].length; j++){
-                for(int k = 0; k < scaleFactor; k++){
-                    for(int l = 0; l < scaleFactor; l++){
-                        newScaledMap[k + i * scaleFactor][l +j * scaleFactor] = maze[i][j];
-                    }
-                }
+
+    public double getDistance(double angle) {
+        angle += Math.toRadians(player.getRotation()) - Math.PI / 2; 
+        
+        double startPosX = player.getX();
+        double startPosY = player.getY();
+        
+        double rayX = startPosX;
+        double rayY = startPosY;
+
+        double stepSize = 0.05;
+
+        double dx = Math.cos(angle) * stepSize;
+        double dy = Math.sin(angle) * stepSize;
+
+        while (maze[(int)Math.floor(rayX)][(int)Math.floor(rayY)] == 0) {
+            rayX += dx;
+            rayY += dy;
+
+            int mazeX = (int)Math.floor(rayX);
+            int mazeY = (int)Math.floor(rayY);
+
+            if (!isInBound(maze, mazeY, mazeX)) {
+                return 0; 
             }
         }
-        return newScaledMap;
+        
+        // System.out.println(rayX);
+        double fx = rayX - startPosX;
+        double fy = rayY - startPosY;
+        return Math.sqrt(fx * fx + fy * fy);
     }
-
-public double getDistance(double angle) {
-    angle += Math.toRadians(player.getRotation()); 
-    
-    double startPosX = player.getX() * scaleFactor + scaleFactor / 2.0;
-    double startPosY = player.getY() * scaleFactor + scaleFactor / 2.0;
-    
-    double rayX = startPosX;
-    double rayY = startPosY;
-
-    double stepSize = 0.5;
-
-    double run = Math.cos(angle) * stepSize;
-    double rise = Math.sin(angle) * stepSize;
-
-    while (true) {
-        rayX += run;
-        rayY += rise;
-
-        int mazeX = (int)(rayX / scaleFactor);
-        int mazeY = (int)(rayY / scaleFactor);
-
-        if (!isInBound(maze, mazeY, mazeX)) {
-            return 0; 
-        }
-
-        if (maze[mazeY][mazeX] == 1) {
-            double dx = rayX - startPosX;
-            double dy = rayY - startPosY;
-            return Math.sqrt(dx * dx + dy * dy);
-        }
-    }
-}
     
     public int[] getDistanceArray()
     {
@@ -109,31 +91,15 @@ public double getDistance(double angle) {
         int index = 0;
         for(int i = (180 - fov) / 2; i < fov + ((180 - fov) / 2); i++)
         {
-            distanceArray[index] = (int)(getDistance(Math.toRadians(i)) * (1.0/maze.length*scaleFactor)*(720.0/(scaleFactor*scaleFactor) )) ;
+            distanceArray[index] = (int)(getDistance(Math.toRadians(i)) * (720.0) * (1.0/maze.length)) ;
 
             //distanceArray[index] = (int)((1.0 / getDistance(Math.toRadians(i))) * 10000000 * (720.0/666666.0)) ;
             index++;
         }
-        swapArray(distanceArray);
+        //swapArray(distanceArray);
         return distanceArray;
     }
 
-    public void printTestFrame()
-    {
-        int[] distanceArray = getDistanceArray();
-        distanceArray = swapArray(distanceArray);
-        printArray(distanceArray);
-        int[][] screen = new int[maze.length*scaleFactor * 2][player.getFov()];
-        for(int x = 0; x < screen[0].length; x++){
-            //screen[0][x];
-            for(int i = 0; i < distanceArray[x]; i++){
-                System.out.print(( screen.length - distanceArray[x]  ) / 2);
-                screen[i+ ((screen.length - distanceArray[x]  ) / 2)][x] = 1; // 
-            }
-        }
-        print2dArray(screen);
-
-    }
 
     public int[] swapArray(int[] arr)
     {
