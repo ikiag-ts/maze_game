@@ -1,5 +1,6 @@
 import java.awt.*;
 import javax.swing.JFrame;
+import javax.swing.JOptionPane;
 
 public class Game extends JFrame{
     public static RayCastPlayer player;
@@ -7,7 +8,7 @@ public class Game extends JFrame{
 
     public Game(){
         this.input = new Input();
-        this.player = new RayCastPlayer(2,2,90);
+        this.player = new RayCastPlayer(17,21,90);
         addKeyListener(input);
         setFocusable(true);
         setFocusTraversalKeysEnabled(false);
@@ -19,14 +20,17 @@ public class Game extends JFrame{
         Graphics g = frame.getGraphics();
         RayCast r = new RayCast(player);
         r.printArray(r.getDistanceArray());
+        boolean win = false;
 
 
         
         input.run(player);
         
-        while(true){
+        while(!win){
             resetBackground(g);
             drawCasting(r.getDistanceArray(), g);
+            win = checkWin();
+            
             try {
                 Thread.sleep(500);
             } 
@@ -35,7 +39,14 @@ public class Game extends JFrame{
 
                 return;
             }
+
         }
+
+        JOptionPane.showMessageDialog(null, "You win!!","WINNNERRRRRRRRRR", JOptionPane.ERROR_MESSAGE);
+    }
+
+    public static boolean checkWin(){
+        return (int)player.getX() == 17 && (int)player.getY() == 23;
     }
 
     public static void initializeWindow(Game frame) {
@@ -60,14 +71,14 @@ public class Game extends JFrame{
     }
 
     public static void resetBackground(Graphics g){
-        g.setColor(Color.LIGHT_GRAY);
+        g.setColor(Color.RED);
         g.fillRect(0,0,1080,360);
-        g.setColor(Color.DARK_GRAY);
+        g.setColor(Color.BLUE);
         g.fillRect(0,360,1080,360);
     }
     public static Color returnColor(int distance){
         int rgb = Math.max(0,155-(int)(distance * (255.0 / 720)));
-        Color c = new Color(rgb,rgb,rgb);
+        Color c = new Color(0,rgb,0);
         return c;
     }
 }

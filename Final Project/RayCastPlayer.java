@@ -9,7 +9,7 @@ public class RayCastPlayer {
         this.x = initX;
         this.y = initY;
         this.fov = fov;
-        this.rotation = 0;
+        this.rotation = 180;
     }
     
     public void setMaze(int[][] maze) {
