@@ -8,7 +8,7 @@ public class Game extends JFrame{
 
     public Game(){
         this.input = new Input();
-        this.player = new RayCastPlayer(17,21,90);
+        this.player = new RayCastPlayer(13,2,90);
         addKeyListener(input);
         setFocusable(true);
         setFocusTraversalKeysEnabled(false);
