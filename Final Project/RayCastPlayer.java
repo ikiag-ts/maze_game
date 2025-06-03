@@ -5,11 +5,11 @@ public class RayCastPlayer {
     private int rotation;
     private int[][] maze; 
 
-    public RayCastPlayer(double initX, double initY, int fov) {
+    public RayCastPlayer(double initX, double initY, int rot) {
         this.x = initX;
         this.y = initY;
-        this.fov = fov;
-        this.rotation = 180;
+        this.fov = 90;
+        this.rotation = rot;
     }
     
     public void setMaze(int[][] maze) {
@@ -43,8 +43,8 @@ public class RayCastPlayer {
     
     public void moveForward() { 
 
-        double newX = x + Math.cos(rotation * Math.PI / 180 - Math.PI/2) * 0.5;    
-        double newY = y + Math.sin(rotation * Math.PI / 180 - Math.PI/2) * 0.5;
+        double newX = x + Math.cos(rotation * Math.PI / 180 + Math.PI) * 0.5;    
+        double newY = y + Math.sin(rotation * Math.PI / 180 + Math.PI) * 0.5;
     
         if (canMoveTo(newX, newY)) {    
             x = newX;   
@@ -54,8 +54,8 @@ public class RayCastPlayer {
     
     public void moveBackward() {       
 
-        double newY = y + Math.sin(rotation * Math.PI / 180 + Math.PI/2);
-        double newX = x + Math.cos(rotation * Math.PI / 180 + Math.PI/2);    
+        double newY = y + Math.sin(rotation * Math.PI / 180);
+        double newX = x + Math.cos(rotation * Math.PI / 180);    
     
         if (canMoveTo(newX, newY)) {    
             x = newX;   

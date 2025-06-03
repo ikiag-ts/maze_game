@@ -47,15 +47,26 @@ public class RayCast {
     };
 
     RayCastPlayer player;
-
+    private double[] correctAngles;
 
     public RayCast(RayCastPlayer player){
 
         this.player = player;
         player.setMaze(this.maze);
+        correctAngles = correctAngles();
     }
 
-    public double getDistance(double angle) {
+    public double[] correctAngles()
+    {
+        double[] c = new double[90];
+        double step = (2.0/89);
+        for(int i = 0; i < 90; i ++)
+        {
+            c[i] = Math.atan(i*step-1);
+        }
+        return c;
+    }
+    public double getDistance(double angle, double beta) {
         angle += Math.toRadians(player.getRotation())+Math.PI; 
         
         double startPosX = player.getX();
@@ -84,7 +95,7 @@ public class RayCast {
         // System.out.println(rayX);
         double fx = rayX - startPosX;
         double fy = rayY - startPosY;
-        return Math.sqrt(fx * fx + fy * fy);
+        return Math.sqrt(fx * fx + fy * fy) * Math.cos(beta);
     }
     
     public int[] getDistanceArray()
@@ -92,9 +103,9 @@ public class RayCast {
         int fov = player.getFov();
         int[] distanceArray = new int[fov];
         int index = 0;
-        for(int i = (180 - fov) / 2; i < fov + ((180 - fov) / 2); i++)
+        for(int i = 0; i < 90; i++)
         {
-            distanceArray[index] = (int)(getDistance(Math.toRadians(i)) * (720.0) * (1.0/maze.length)) ;
+            distanceArray[index] = (int)(getDistance(correctAngles[i],correctAngles[i]) * (720.0) * (1.0/maze.length)) ;
 
             //distanceArray[index] = (int)((1.0 / getDistance(Math.toRadians(i))) * 10000000 * (720.0/666666.0)) ;
             index++;

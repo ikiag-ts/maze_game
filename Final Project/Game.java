@@ -8,7 +8,7 @@ public class Game extends JFrame{
 
     public Game(){
         this.input = new Input();
-        this.player = new RayCastPlayer(13,2,90);
+        this.player = new RayCastPlayer(13,2,180);
         addKeyListener(input);
         setFocusable(true);
         setFocusTraversalKeysEnabled(false);
@@ -60,15 +60,24 @@ public class Game extends JFrame{
     }
     
     public static void drawCasting(int[] distances, Graphics g){
-        
+
         for(int i = 0; i < distances.length; i++)
         {
-            int rHeight = (720-distances[i]);
+            // double corr = Math.atan(correction[i]);
+            int rHeight = (int)((720-distances[i]));
             int offset = (distances[i]) / 2;
             g.setColor(returnColor(distances[i]));
-            g.fillRect(i * 12, offset , 1080/distances.length, rHeight );
+            g.fillRect((int)(i * 12), offset , (int)(1080/distances.length),rHeight);
         }
     }
+
+    // public static double[] makeCorr(){
+    //     double[] corrArr = new double[90];
+    //     for(int i = 0; i < 90; i++){
+    //         corrArr[i] = (player.getRotation() - 45 + i) * Math.PI / 180;
+    //     }
+    //     return corrArr;
+    // }
 
     public static void resetBackground(Graphics g){
         g.setColor(Color.RED);
