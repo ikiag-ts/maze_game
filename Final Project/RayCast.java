@@ -20,6 +20,7 @@ public class RayCast {
     //{1, 1, 1, 1, 1, 1, 1, 1, 1, 1},    
     //};
     public int[][] maze = {
+        {1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0, 1, 1},
         {1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1},
         {1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1},
         {1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1},
@@ -66,8 +67,8 @@ public class RayCast {
         }
         return c;
     }
-    public double getDistance(double angle, double beta) {
-        angle += Math.toRadians(player.getRotation())+Math.PI; 
+    public double getDistance(double alpha, double beta) {
+        alpha += Math.toRadians(player.getRotation())+Math.PI; 
         
         double startPosX = player.getX();
         double startPosY = player.getY();
@@ -77,8 +78,8 @@ public class RayCast {
 
         double stepSize = 0.05;
 
-        double dx = Math.cos(angle) * stepSize;
-        double dy = Math.sin(angle) * stepSize;
+        double dx = Math.cos(alpha) * stepSize;
+        double dy = Math.sin(alpha) * stepSize;
 
         while (maze[(int)(rayY)][(int)(rayX)] == 0) {
             rayX += dx;

@@ -1,7 +1,5 @@
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
-import java.awt.Graphics;
-import java.awt.Color;
 
 public class Input extends Thread implements KeyListener
 {
